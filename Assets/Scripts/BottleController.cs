@@ -62,7 +62,15 @@ public class BottleController : MonoBehaviour
 
     [SerializeField] MenuController menuController;
 
-    [SerializeField] GameObject fullBottleEffect,finishEffect;
+    [SerializeField] GameObject fullBottleEffect, finishEffect;
+
+    [Header("VFX & SFX")]
+    public GameObject pourEffectPrefab;
+    public AudioClip pourSFX;
+    public AudioClip fillSFX;
+    public AudioClip winSFX;
+    private GameObject currentPourEffect;
+
     void Start()
     {
 
@@ -205,6 +213,10 @@ public class BottleController : MonoBehaviour
                 if (count > 3)
                 {
                     Instantiate(fullBottleEffect, bottles[i].transform.position, Quaternion.identity);
+                    if (SoundManager.instance != null)
+                    {
+                        SoundManager.instance.PlaySFX(bottles[i].GetComponent<BottleController>().fillSFX);
+                    }
                     bottles[i].tag = "finish";
                     bottles[i].GetComponent<BoxCollider2D>().enabled = false;
                     LevelController.levelWinPoint--;
@@ -227,7 +239,11 @@ public class BottleController : MonoBehaviour
 
     IEnumerator WaitWinEffect()
     {
-        Instantiate(finishEffect, new Vector3(0, 0, 0), Quaternion.identity);       
+        Instantiate(finishEffect, new Vector3(0, 0, 0), Quaternion.identity);
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.PlaySFX(winSFX);
+        }
         menuController.WinPanel();
         yield return new WaitForSeconds(1.5f);
     }
@@ -269,6 +285,23 @@ public class BottleController : MonoBehaviour
                     lineRenderer.SetPosition(0, chosenRotatePoint.position);
                     lineRenderer.SetPosition(1, chosenRotatePoint.position - Vector3.up * 1.45f);
                     lineRenderer.enabled = true;
+
+                    // Pouring Effect
+                    if (pourEffectPrefab != null && currentPourEffect == null)
+                    {
+                        currentPourEffect = Instantiate(pourEffectPrefab, chosenRotatePoint.position, Quaternion.identity);
+                        // Try to set color if it's a particle system or has a specific script
+                        var ps = currentPourEffect.GetComponent<ParticleSystem>();
+                        if (ps != null)
+                        {
+                            var main = ps.main;
+                            main.startColor = topColor;
+                        }
+                    }
+                    if (SoundManager.instance != null && pourSFX != null)
+                    {
+                        SoundManager.instance.PlaySFX(pourSFX);
+                    }
                 }
 
                 bottleMaskSR.material.SetFloat("_FillAmount", fillAmountC.Evaluate(angleValue));
@@ -290,6 +323,11 @@ public class BottleController : MonoBehaviour
         bottleControlRef.numberOfColorInBottle += numberOfColorTransfer;
 
         lineRenderer.enabled = false;
+        if (currentPourEffect != null)
+        {
+            Destroy(currentPourEffect, 0.5f);
+            currentPourEffect = null;
+        }
         StartCoroutine(RotateBottleBack());
     }
 

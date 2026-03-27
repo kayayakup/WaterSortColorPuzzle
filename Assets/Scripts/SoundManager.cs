@@ -5,27 +5,45 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-
+    public static SoundManager instance;
+    public AudioSource sfxSource;
     public Slider volSlider;
     float vol;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        volSlider.value = AudioListener.volume;
-
-
+        if (volSlider != null)
+            volSlider.value = AudioListener.volume;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlaySFX(AudioClip clip)
     {
-
+        if (clip != null && sfxSource != null)
+        {
+            sfxSource.PlayOneShot(clip);
+        }
     }
 
     public void ChangeVolume()
     {
-        AudioListener.volume = volSlider.value;
-        vol = volSlider.value;
+        if (volSlider != null)
+        {
+            AudioListener.volume = volSlider.value;
+            vol = volSlider.value;
+        }
     }
 
 

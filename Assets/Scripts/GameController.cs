@@ -14,10 +14,25 @@ public class GameController : MonoBehaviour
     public float bottleLiftHeight = 0.2f;
     public float bottleLiftSpeed = 20f;
 
+    [Header("VFX & SFX")]
+    public GameObject gameStartEffect;
+    public GameObject backgroundEffect;
+    public GameObject clickEffect;
+    public AudioClip clickSFX;
+    public AudioClip winSFX;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (gameStartEffect != null)
+        {
+            Instantiate(gameStartEffect, Vector3.zero, Quaternion.identity);
+        }
 
+        if (backgroundEffect != null)
+        {
+            Instantiate(backgroundEffect, Vector3.zero, Quaternion.identity);
+        }
     }
 
     // Update is called once per frame
@@ -34,6 +49,15 @@ public class GameController : MonoBehaviour
 
             if (hit.collider != null && hit.collider.GetComponent<BottleController>() != null)
             {
+                // Click Effect & Sound
+                if (clickEffect != null)
+                {
+                    Instantiate(clickEffect, (Vector3)mousePos2D + Vector3.back, Quaternion.identity);
+                }
+                if (SoundManager.instance != null)
+                {
+                    SoundManager.instance.PlaySFX(clickSFX);
+                }
 
                 if (FirstBottle == null)
                 {
