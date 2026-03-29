@@ -273,19 +273,20 @@ MonoBehaviour:
   numberOfColorInBottle: 3
   topColor: {r: 0, g: 0, b: 0, a: 1}
   numberOfTopColorLayers: 1
-  bottleControlRef: {fileID: 0}
-  justThisBottle: 1
   leftRotatePoint: {fileID: 6821628699763423609}
   rightRotatePoint: {fileID: 6821628698977422001}
-  chosenRotatePoint: {fileID: 0}
   lineRenderer: {fileID: 0}
+  isPouringOut: 0
+  incomingPours: 0
+  reservedSlots: 0
+  reservedColor: {r: 0, g: 0, b: 0, a: 0}
   menuController: {fileID: 0}
-  fullBottleEffect: {fileID: 7957649050059185992, guid: 2718a5498a1295345b8ebe63f74b1a20, type: 3}
-  finishEffect: {fileID: 721462884126950772, guid: 7bef3b6ce95f29d479b6b39bf4006e23, type: 3}
+  fullBottleEffect: {fileID: 721462884126950772, guid: 7bef3b6ce95f29d479b6b39bf4006e23, type: 3}
   pourEffectPrefab: {fileID: 130552, guid: 5e6b78bb4b4d6d34e970c19c9577f070, type: 3}
-  pourSFX: {fileID: 8300000, guid: 63f17a59ad4ec9c4c92fbdef0de2d959, type: 3}
-  fillSFX: {fileID: 0}
+  pourSFX: {fileID: 8300000, guid: 2d68a081dcf123849839cbe03b1163be, type: 3}
+  fillSFX: {fileID: 8300000, guid: d0afb420c9b144540a44e31afb8517bf, type: 3}
   winSFX: {fileID: 8300000, guid: bab092c70815ac544a1610096d8a4363, type: 3}
+  winVFX: {fileID: 129898, guid: 36bdc02b23d9ca94d93bd715c0cca5c0, type: 3}
   timeToRotate: 0.5
 --- !u!61 &6821628699513315875
 BoxCollider2D:

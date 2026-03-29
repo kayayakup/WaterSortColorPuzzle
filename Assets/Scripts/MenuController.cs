@@ -109,8 +109,18 @@ public class MenuController : MonoBehaviour
     public void WinPanel()
     {
         winPanel.SetActive(true);
+
+        if (activeLevel > 3)
+        {
+            StartCoroutine(ShowAdWithDelay());
+        }
     }
 
+    private IEnumerator ShowAdWithDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GoogleAdMobController.Instance.ShowInterstitialAd();
+    }
     public void NextLevel()
     {
         AdsController.Instance.ShowTransition();
